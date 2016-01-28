@@ -46,6 +46,7 @@ namespace Pacman_Game_XNA
         private Texture2D bigbean;
         private Texture2D pacgum;
         private Map map;
+        private Pacman pacman;
 
         public Game()
         {
@@ -114,6 +115,8 @@ namespace Pacman_Game_XNA
             bean = Content.Load<Texture2D>(@"Sprites\\Background\\bean");
             bigbean = Content.Load<Texture2D>(@"Sprites\\Background\\big_bean");
             pacgum = Content.Load<Texture2D>(@"Sprites\\Background\\pacgum");
+            pacman = new Pacman("Pacman", Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_RIGHT"));
+            pacman.setPosition(15*20, 14*20);
         }
 
         /// <summary>
@@ -151,6 +154,7 @@ namespace Pacman_Game_XNA
 
             spriteBatch.Begin();
             this.DisplayMap();
+            this.DisplayPacman();
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -185,6 +189,14 @@ namespace Pacman_Game_XNA
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Internal function used to display pacman.
+        /// </summary>
+        private void DisplayPacman()
+        {
+            spriteBatch.Draw(this.pacman.ActualTexture, this.pacman.Position, Color.White);
         }
     }
 }
