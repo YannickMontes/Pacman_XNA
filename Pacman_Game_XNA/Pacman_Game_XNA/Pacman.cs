@@ -8,9 +8,18 @@ namespace Pacman_Game_XNA
 {
     public class Pacman : AnimateObject
     {
-        public Pacman(string name, Texture2D texture) : base(name, texture)
+        private MovementController movementController;
+
+        public Pacman(string name, Texture2D texture, Map map) : base(name, texture)
         {
-            
+            this.movementController = new MovementController(this, map);
+        }
+
+        public void Update()
+        {
+            this.Direction = this.movementController.GetMovement();
+            this.CheckActualTexture();
+            this.movementController.Update();
         }
     }
 }

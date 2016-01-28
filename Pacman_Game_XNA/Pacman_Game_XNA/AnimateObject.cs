@@ -20,7 +20,7 @@ namespace Pacman_Game_XNA
         private Texture2D actualTexture;
         private Vector2 position;
         private Vector2 size;
-        private int speed;
+        private int speed=1;
         private DIRECTION direction;
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Pacman_Game_XNA
             this.position = new Vector2(0.0f, 0.0f);
             this.textures = new List<Texture2D>();
             this.textures.Add(texture);
-            this.direction = DIRECTION.RIGHT;
+            this.direction = DIRECTION.NONE;
             this.actualTexture = texture;
         }
 
@@ -59,6 +59,11 @@ namespace Pacman_Game_XNA
                     this.position.X += this.speed;
                     break;
             }
+        }
+
+        public void CheckActualTexture()
+        {
+
         }
 
         public void setPosition(int x, int y)
@@ -119,5 +124,7 @@ namespace Pacman_Game_XNA
         {
             return (int)this.position.Y;
         }
+
+        
     }
 }

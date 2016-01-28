@@ -19,7 +19,8 @@ namespace Pacman_Game_XNA
         RIGHT,
         DOWN,
         LEFT,
-        UP
+        UP,
+        NONE
     }
 
     /// <summary>
@@ -115,7 +116,7 @@ namespace Pacman_Game_XNA
             bean = Content.Load<Texture2D>(@"Sprites\\Background\\bean");
             bigbean = Content.Load<Texture2D>(@"Sprites\\Background\\big_bean");
             pacgum = Content.Load<Texture2D>(@"Sprites\\Background\\pacgum");
-            pacman = new Pacman("Pacman", Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_RIGHT"));
+            pacman = new Pacman("Pacman", Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_RIGHT"), this.map);
             pacman.setPosition(15*20, 14*20);
         }
 
@@ -139,7 +140,7 @@ namespace Pacman_Game_XNA
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            this.pacman.Update();
 
             base.Update(gameTime);
         }
