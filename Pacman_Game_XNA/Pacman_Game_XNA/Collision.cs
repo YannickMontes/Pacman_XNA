@@ -90,6 +90,19 @@ namespace Pacman_Game_XNA
         public void Update(Pacman pacman)
         {
             this.UpdatePacman(pacman);
+            this.CheckCollisionPacmanGhosts(pacman);
+        }
+
+        private bool CheckCollisionPacmanGhosts(Pacman pacman)
+        {
+            foreach(Ghost g in Game.GHOSTS)
+            {
+                if(g.GetAcutalCaseX(map.Tile_size) == pacman.GetAcutalCaseX(map.Tile_size) && g.GetAcutalCaseY(map.Tile_size) == pacman.GetAcutalCaseY(map.Tile_size))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private void UpdatePacman(Pacman pacman)

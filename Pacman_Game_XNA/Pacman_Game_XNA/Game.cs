@@ -236,5 +236,10 @@ namespace Pacman_Game_XNA
                 spriteBatch.Draw(g.ActualTexture, g.Position, Color.White);
             }
         }
+
+        public static void Stop()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
