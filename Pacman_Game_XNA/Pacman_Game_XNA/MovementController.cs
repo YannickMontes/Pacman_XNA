@@ -9,45 +9,50 @@ namespace Pacman_Game_XNA
     public class MovementController
     {
         private KeyboardState keyboard;
-        private Pacman pacman;
-        private Map map;
-        private Collision collision;
 
-        public MovementController(Pacman pacman, Map map, Collision collison)
+        public MovementController()
         {
-            this.pacman = pacman;
-            this.map = map;
-            this.collision = collison;
         }
 
-        public void Update()
+        public void Update(Pacman pacman, Map map)
+        {
+            this.UpdatePacman(pacman, map);
+            this.UpdateGhosts();
+        }
+
+        private void UpdateGhosts()
+        {
+            
+        }
+
+        private void UpdatePacman(Pacman pacman, Map map)
         {
             this.keyboard = Keyboard.GetState();
-            if(this.pacman.Direction == DIRECTION.UP || this.pacman.Direction == DIRECTION.DOWN || this.pacman.Direction == DIRECTION.NONE)
+            if (pacman.Direction == DIRECTION.UP || pacman.Direction == DIRECTION.DOWN || pacman.Direction == DIRECTION.NONE)
             {
-                if(keyboard.IsKeyDown(Keys.Up) || keyboard.IsKeyDown(Keys.Down))
+                if (keyboard.IsKeyDown(Keys.Up) || keyboard.IsKeyDown(Keys.Down))
                 {
-                    this.pacman.Direction = (keyboard.IsKeyDown(Keys.Up) ? DIRECTION.UP : DIRECTION.DOWN);
+                    pacman.Direction = (keyboard.IsKeyDown(Keys.Up) ? DIRECTION.UP : DIRECTION.DOWN);
                 }
-                else if(keyboard.IsKeyDown(Keys.Right) || keyboard.IsKeyDown(Keys.Left))
+                else if (keyboard.IsKeyDown(Keys.Right) || keyboard.IsKeyDown(Keys.Left))
                 {
-                    if(this.pacman.GetCaseYSup(map.Tile_size)!=-1 || this.pacman.GetCaseYInf(map.Tile_size)!=-1)
+                    if (pacman.GetCaseYSup(map.Tile_size) != -1 || pacman.GetCaseYInf(map.Tile_size) != -1)
                     {
-                        this.pacman.Direction = (keyboard.IsKeyDown(Keys.Right) ? DIRECTION.RIGHT : DIRECTION.LEFT);
+                        pacman.Direction = (keyboard.IsKeyDown(Keys.Right) ? DIRECTION.RIGHT : DIRECTION.LEFT);
                     }
                 }
             }
-            if (this.pacman.Direction == DIRECTION.RIGHT || this.pacman.Direction == DIRECTION.LEFT || this.pacman.Direction == DIRECTION.NONE)
+            if (pacman.Direction == DIRECTION.RIGHT || pacman.Direction == DIRECTION.LEFT || pacman.Direction == DIRECTION.NONE)
             {
-                if(keyboard.IsKeyDown(Keys.Right) || keyboard.IsKeyDown(Keys.Left))
+                if (keyboard.IsKeyDown(Keys.Right) || keyboard.IsKeyDown(Keys.Left))
                 {
-                    this.pacman.Direction = (keyboard.IsKeyDown(Keys.Right) ? DIRECTION.RIGHT : DIRECTION.LEFT);
+                    pacman.Direction = (keyboard.IsKeyDown(Keys.Right) ? DIRECTION.RIGHT : DIRECTION.LEFT);
                 }
-                else if(keyboard.IsKeyDown(Keys.Up) || keyboard.IsKeyDown(Keys.Down))
+                else if (keyboard.IsKeyDown(Keys.Up) || keyboard.IsKeyDown(Keys.Down))
                 {
-                    if(this.pacman.GetCaseXSup(map.Tile_size)!=-1 || this.pacman.GetCaseXInf(map.Tile_size)!=-1)
+                    if (pacman.GetCaseXSup(map.Tile_size) != -1 || pacman.GetCaseXInf(map.Tile_size) != -1)
                     {
-                        this.pacman.Direction = (keyboard.IsKeyDown(Keys.Up) ? DIRECTION.UP : DIRECTION.DOWN);
+                        pacman.Direction = (keyboard.IsKeyDown(Keys.Up) ? DIRECTION.UP : DIRECTION.DOWN);
                     }
                 }
             }

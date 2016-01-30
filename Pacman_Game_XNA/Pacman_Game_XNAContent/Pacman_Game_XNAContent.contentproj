@@ -57,58 +57,38 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sprites\Ghosts\fantomeBleu.png">
-      <Name>fantomeBleu</Name>
+    <Compile Include="Sprites\Ghosts\ghost_afraid_0.png">
+      <Name>ghost_afraid_0</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Ghosts\FantomePeur0.png">
-      <Name>FantomePeur0</Name>
+    <Compile Include="Sprites\Ghosts\ghost_afraid_1.png">
+      <Name>ghost_afraid_1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Ghosts\FantomePeur1.png">
-      <Name>FantomePeur1</Name>
+    <Compile Include="Sprites\Ghosts\ghost_sky.png">
+      <Name>ghost_sky</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Ghosts\fantomeRose.png">
-      <Name>fantomeRose</Name>
+    <Compile Include="Sprites\Ghosts\ghost_orange.png">
+      <Name>ghost_orange</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Ghosts\fantomeRouge.png">
-      <Name>fantomeRouge</Name>
+    <Compile Include="Sprites\Ghosts\ghost_pink.png">
+      <Name>ghost_pink</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Ghosts\fantomeVert.png">
-      <Name>fantomeVert</Name>
+    <Compile Include="Sprites\Ghosts\ghost_red.png">
+      <Name>ghost_red</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="Sprites\Ghosts\fantome_cyan.png">
-      <Name>fantome_cyan</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Ghosts\fantome_orange.png">
-      <Name>fantome_orange</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Ghosts\fantome_rose.png">
-      <Name>fantome_rose</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Ghosts\fantome_rouge.png">
-      <Name>fantome_rouge</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Sprites\Ghosts\fan_mangeable.png">
-      <Name>fan_mangeable</Name>
+    <Compile Include="Sprites\Ghosts\ghost_eatable.png">
+      <Name>ghost_eatable</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

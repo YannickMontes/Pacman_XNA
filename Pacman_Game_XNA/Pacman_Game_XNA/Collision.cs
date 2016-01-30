@@ -7,50 +7,77 @@ namespace Pacman_Game_XNA
 {
     public class Collision
     {
-        private Pacman pacman;
         private Map map;
+
+        public Map Map
+        {
+            get { return map; }
+        }
 
         public Collision(Pacman pacman, Map map)
         {
-            this.pacman = pacman;
             this.map = map;
         }
 
-        public bool SideCaseIsNotWall(DIRECTION dir)
+        public List<DIRECTION> GetPossibleDirection(AnimateObject obj)
+        {
+            List<DIRECTION> ret = new List<DIRECTION>();
+
+            if (this.SideCaseIsNotWall(DIRECTION.DOWN, obj))
+            {
+                ret.Add(DIRECTION.DOWN);
+            }
+            if (this.SideCaseIsNotWall(DIRECTION.UP, obj))
+            {
+                ret.Add(DIRECTION.UP);
+            }
+            if (this.SideCaseIsNotWall(DIRECTION.RIGHT, obj))
+            {
+                ret.Add(DIRECTION.RIGHT);
+            }
+            if (this.SideCaseIsNotWall(DIRECTION.LEFT, obj))
+            {
+                ret.Add(DIRECTION.LEFT);
+            }
+
+            return ret;
+        }
+
+        public bool SideCaseIsNotWall(DIRECTION dir, AnimateObject obj)
         {
             switch(dir)
             {
                 case DIRECTION.DOWN:
-                    if(pacman.GetCaseYSup(map.Tile_size)!=-1)
+                    if (obj.GetCaseYSup(map.Tile_size) != -1)
                     {
-                        if (map.Grid[pacman.GetCaseYSup(map.Tile_size)][pacman.GetAcutalCaseX(map.Tile_size)].Content == CELL_CONTENT.WALL)
+                        if (map.Grid[obj.GetCaseYSup(map.Tile_size)][obj.GetAcutalCaseX(map.Tile_size)].Content == CELL_CONTENT.WALL)
                         {
                             return false;
                         }
                     }
                     break;
                 case DIRECTION.UP:
-                    if (pacman.GetCaseYInf(map.Tile_size) != -1)
+                    if (obj.GetCaseYInf(map.Tile_size) != -1)
                     {
-                        if (map.Grid[pacman.GetCaseYInf(map.Tile_size)-1][pacman.GetAcutalCaseX(map.Tile_size)].Content == CELL_CONTENT.WALL)
+                        if (map.Grid[obj.GetCaseYInf(map.Tile_size) - 1][obj.GetAcutalCaseX(map.Tile_size)].Content == CELL_CONTENT.WALL)
                         {
                             return false;
                         }
                     }
                     break;
                 case DIRECTION.LEFT:
-                    if (pacman.GetCaseXInf(map.Tile_size) != -1)
+                    if (obj.GetCaseXInf(map.Tile_size) != -1)
                     {
-                        if (map.Grid[pacman.GetAcutalCaseY(map.Tile_size)][pacman.GetCaseXInf(map.Tile_size)-1].Content == CELL_CONTENT.WALL)
+                        if (map.Grid[obj.GetAcutalCaseY(map.Tile_size)][obj.GetCaseXInf(map.Tile_size) - 1].Content == CELL_CONTENT.WALL)
                         {
                             return false;
                         }
                     }
                     break;
                 case DIRECTION.RIGHT:
-                    if (pacman.GetCaseXSup(map.Tile_size) != -1)
+                    if (obj.GetCaseXSup(map.Tile_size) != -1)
                     {
-                        if (map.Grid[pacman.GetAcutalCaseY(map.Tile_size)][pacman.GetCaseXSup(map.Tile_size)].Content == CELL_CONTENT.WALL)
+                        if (map.Grid[obj.GetAcutalCaseY(map.Tile_size)][obj.GetCaseXSup(map.Tile_size)].Content == CELL_CONTENT.WALL)
                         {
                             return false;
                         }
@@ -60,18 +87,24 @@ namespace Pacman_Game_XNA
             return true;
         }
 
-        public void Upadte()
+        public void Update(Pacman pacman)
         {
-            switch (this.map.Grid[this.pacman.GetAcutalCaseY(map.Tile_size)][this.pacman.GetAcutalCaseX(map.Tile_size)].Content) 
-            { 
+            this.UpdatePacman(pacman);
+        }
+
+        private void UpdatePacman(Pacman pacman)
+        {
+            switch (this.map.Grid[pacman.GetAcutalCaseY(map.Tile_size)][pacman.GetAcutalCaseX(map.Tile_size)].Content)
+            {
                 case CELL_CONTENT.BEAN:
-                    this.map.Grid[this.pacman.GetAcutalCaseY(map.Tile_size)][this.pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
+                    pacman.Score += 5;
+                    map.Grid[pacman.GetAcutalCaseY(map.Tile_size)][pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
                     break;
                 case CELL_CONTENT.BIGBEAN:
-                    this.map.Grid[this.pacman.GetAcutalCaseY(map.Tile_size)][this.pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
-                    break; 
+                    map.Grid[pacman.GetAcutalCaseY(map.Tile_size)][pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
+                    break;
                 case CELL_CONTENT.PACGUM:
-                    this.map.Grid[this.pacman.GetAcutalCaseY(map.Tile_size)][this.pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
+                    map.Grid[pacman.GetAcutalCaseY(map.Tile_size)][pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
                     break;
             }
         }

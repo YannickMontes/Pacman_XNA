@@ -9,21 +9,46 @@ namespace Pacman_Game_XNA
     public class Pacman : AnimateObject
     {
         public static int NB_FRAMES_OPEN_MOUTH_PACMAN = 0;
-        private MovementController movementController;
-        private Collision collision;
+        private int score = 0;
 
-        public Pacman(string name, Texture2D texture, Map map) : base(name, texture)
+        public Pacman(string name, Texture2D texture) : base(name, texture)
         {
-            this.collision = new Collision(this, map);
-            this.movementController = new MovementController(this, map, this.collision);
+
         }
 
-        public void Update()
+        public void Update(Collision collision)
         {
-            this.movementController.Update();
-            this.collision.Upadte();
             this.CheckActualTexture();
-            this.MooveObject(this.collision);
+            this.MooveObject(collision);
+        }
+
+        public void CheckActualTexture()
+        {
+            if (this.direction != DIRECTION.NONE)
+            {
+                if (Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN < 5)
+                {
+                    this.actualTexture = this.textures.ElementAt((int)this.direction + 4);
+                }
+                else
+                {
+                    this.actualTexture = this.textures.ElementAt((int)this.direction);
+                }
+            }
+            if (Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN >= 10)
+            {
+                Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN = 0;
+            }
+            if (this.direction == DIRECTION.NONE && this.textures.IndexOf(this.actualTexture) > 3)
+            {
+                this.actualTexture = this.textures.ElementAt(this.textures.IndexOf(this.actualTexture) - 4);
+            }
+        }
+
+        public int Score
+        {
+            get { return score; }
+            set { score = value; }
         }
     }
 }

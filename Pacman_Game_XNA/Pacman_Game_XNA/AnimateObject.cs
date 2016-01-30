@@ -12,16 +12,17 @@ namespace Pacman_Game_XNA
         /// <summary>
         /// Sprite list of the object
         /// </summary>
-        private List<Texture2D> textures;
+        protected List<Texture2D> textures;
         /// <summary>
         /// Name of the object (we totally don't care about it, but anyway)
         /// </summary>
-        private string name;
-        private Texture2D actualTexture;
-        private Vector2 position;
-        private Vector2 size;
-        private int speed=1;
-        private DIRECTION direction;
+        protected string name;
+        protected Texture2D actualTexture;
+        protected Vector2 position;
+        protected Vector2 size;
+        protected int speed = 1;
+        protected DIRECTION direction;
+        protected MovementController movementController;
 
         /// <summary>
         /// Base constructor. Create the list of textures and add it to the list. Create the vector position and size.
@@ -44,7 +45,7 @@ namespace Pacman_Game_XNA
         /// </summary>
         public void MooveObject(Collision c)
         {
-            if (!c.SideCaseIsNotWall(this.direction))
+            if (!c.SideCaseIsNotWall(this.direction, this))
             {
                 this.direction = DIRECTION.NONE;
             }
@@ -62,29 +63,6 @@ namespace Pacman_Game_XNA
                 case DIRECTION.RIGHT:
                     this.position.X += this.speed;
                     break;
-            }
-        }
-
-        public void CheckActualTexture()
-        {
-            if(this.direction!=DIRECTION.NONE)
-            {
-                if(Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN < 5)
-                {
-                    this.actualTexture = this.textures.ElementAt((int)this.direction+4);
-                }
-                else
-                {
-                    this.actualTexture = this.textures.ElementAt((int)this.direction);
-                }
-            }
-            if(Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN >= 10)
-            {
-                Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN = 0;
-            }
-            if(this.direction == DIRECTION.NONE && this.textures.IndexOf(this.actualTexture)>3)
-            {
-                this.actualTexture = this.textures.ElementAt(this.textures.IndexOf(this.actualTexture) - 3);
             }
         }
 

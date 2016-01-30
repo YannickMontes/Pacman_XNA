@@ -42,12 +42,15 @@ namespace Pacman_Game_XNA
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        public static List<Ghost> GHOSTS;
         private Texture2D wall;
         private Texture2D bean;
         private Texture2D bigbean;
         private Texture2D pacgum;
         private Map map;
         private Pacman pacman;
+        private Collision collision;
+        private MovementController movementController;
 
         public Game()
         {
@@ -89,6 +92,9 @@ namespace Pacman_Game_XNA
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
             });
+            this.collision = new Collision(this.pacman, map);
+            this.movementController = new MovementController();
+            GHOSTS = new List<Ghost>();
         }
 
         /// <summary>
@@ -112,11 +118,13 @@ namespace Pacman_Game_XNA
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
             wall = Content.Load<Texture2D>(@"Sprites\\Background\\wall");
             bean = Content.Load<Texture2D>(@"Sprites\\Background\\bean");
             bigbean = Content.Load<Texture2D>(@"Sprites\\Background\\big_bean");
             pacgum = Content.Load<Texture2D>(@"Sprites\\Background\\pacgum");
-            pacman = new Pacman("Pacman", Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_RIGHT"), this.map);
+
+            pacman = new Pacman("Pacman", Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_RIGHT"));
             pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_DOWN"));
             pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_LEFT"));
             pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_UP"));
@@ -125,6 +133,11 @@ namespace Pacman_Game_XNA
             pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_LEFT_F"));
             pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_UP_F"));
             pacman.setPosition(15*20, 17*20);
+
+            GHOSTS.Add(new Ghost("Ghost 1", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_sky"), 15 * 20, 17 * 20));
+            //GHOSTS.Add(new Ghost("Ghost 2", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_red"), 14 * 20, 13 * 20));
+            //GHOSTS.Add(new Ghost("Ghost 3", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_pink"), 13 * 20, 13 * 20));
+            //GHOSTS.Add(new Ghost("Ghost 4", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_orange"), 13 * 20, 14 * 20));
         }
 
         /// <summary>
@@ -147,7 +160,13 @@ namespace Pacman_Game_XNA
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            this.pacman.Update();
+            this.movementController.Update(this.pacman, this.map);
+            this.pacman.Update(this.collision);
+            foreach(Ghost g in GHOSTS)
+            {
+                g.Update(this.collision);
+            }
+            this.collision.Update(this.pacman);
 
             Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN++;
 
@@ -165,6 +184,7 @@ namespace Pacman_Game_XNA
             spriteBatch.Begin();
             this.DisplayMap();
             this.DisplayPacman();
+            this.DisplayGhosts();
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -186,10 +206,10 @@ namespace Pacman_Game_XNA
                             spriteBatch.Draw(this.bean, new Vector2(j*this.map.Tile_size, i*this.map.Tile_size), Color.White);
                             break;
                         case CELL_CONTENT.BIGBEAN:
-                            //spriteBatch.Draw(this.bigbean, new Vector2(j * this.map.Tile_size, i * this.map.Tile_size), Color.White);
+                            spriteBatch.Draw(this.bigbean, new Vector2(j * this.map.Tile_size, i * this.map.Tile_size), Color.White);
                             break;
                         case CELL_CONTENT.PACGUM:
-                            //spriteBatch.Draw(this.pacgum, new Vector2(j * this.map.Tile_size, i * this.map.Tile_size), Color.White);
+                            spriteBatch.Draw(this.pacgum, new Vector2(j * this.map.Tile_size, i * this.map.Tile_size), Color.White);
                             break; 
                         case CELL_CONTENT.WALL:
                             spriteBatch.Draw(this.wall, new Vector2(j * this.map.Tile_size, i * this.map.Tile_size), Color.White);
@@ -207,6 +227,14 @@ namespace Pacman_Game_XNA
         private void DisplayPacman()
         {
             spriteBatch.Draw(this.pacman.ActualTexture, this.pacman.Position, Color.White);
+        }
+
+        private void DisplayGhosts()
+        {
+            foreach (Ghost g in GHOSTS)
+            {
+                spriteBatch.Draw(g.ActualTexture, g.Position, Color.White);
+            }
         }
     }
 }
