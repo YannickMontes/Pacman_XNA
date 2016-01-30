@@ -117,6 +117,13 @@ namespace Pacman_Game_XNA
             bigbean = Content.Load<Texture2D>(@"Sprites\\Background\\big_bean");
             pacgum = Content.Load<Texture2D>(@"Sprites\\Background\\pacgum");
             pacman = new Pacman("Pacman", Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_RIGHT"), this.map);
+            pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_DOWN"));
+            pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_LEFT"));
+            pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_UP"));
+            pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_RIGHT_F"));
+            pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_DOWN_F"));
+            pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_LEFT_F"));
+            pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_UP_F"));
             pacman.setPosition(15*20, 17*20);
         }
 
@@ -141,6 +148,8 @@ namespace Pacman_Game_XNA
                 this.Exit();
 
             this.pacman.Update();
+
+            Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN++;
 
             base.Update(gameTime);
         }

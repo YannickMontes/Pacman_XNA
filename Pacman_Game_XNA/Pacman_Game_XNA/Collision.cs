@@ -59,5 +59,21 @@ namespace Pacman_Game_XNA
             }
             return true;
         }
+
+        public void Upadte()
+        {
+            switch (this.map.Grid[this.pacman.GetAcutalCaseY(map.Tile_size)][this.pacman.GetAcutalCaseX(map.Tile_size)].Content) 
+            { 
+                case CELL_CONTENT.BEAN:
+                    this.map.Grid[this.pacman.GetAcutalCaseY(map.Tile_size)][this.pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
+                    break;
+                case CELL_CONTENT.BIGBEAN:
+                    this.map.Grid[this.pacman.GetAcutalCaseY(map.Tile_size)][this.pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
+                    break; 
+                case CELL_CONTENT.PACGUM:
+                    this.map.Grid[this.pacman.GetAcutalCaseY(map.Tile_size)][this.pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
+                    break;
+            }
+        }
     }
 }

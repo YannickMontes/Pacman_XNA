@@ -8,6 +8,7 @@ namespace Pacman_Game_XNA
 {
     public class Pacman : AnimateObject
     {
+        public static int NB_FRAMES_OPEN_MOUTH_PACMAN = 0;
         private MovementController movementController;
         private Collision collision;
 
@@ -20,6 +21,8 @@ namespace Pacman_Game_XNA
         public void Update()
         {
             this.movementController.Update();
+            this.collision.Upadte();
+            this.CheckActualTexture();
             this.MooveObject(this.collision);
         }
     }

@@ -67,7 +67,25 @@ namespace Pacman_Game_XNA
 
         public void CheckActualTexture()
         {
-
+            if(this.direction!=DIRECTION.NONE)
+            {
+                if(Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN < 5)
+                {
+                    this.actualTexture = this.textures.ElementAt((int)this.direction+4);
+                }
+                else
+                {
+                    this.actualTexture = this.textures.ElementAt((int)this.direction);
+                }
+            }
+            if(Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN >= 10)
+            {
+                Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN = 0;
+            }
+            if(this.direction == DIRECTION.NONE && this.textures.IndexOf(this.actualTexture)>3)
+            {
+                this.actualTexture = this.textures.ElementAt(this.textures.IndexOf(this.actualTexture) - 3);
+            }
         }
 
         public void setPosition(int x, int y)
