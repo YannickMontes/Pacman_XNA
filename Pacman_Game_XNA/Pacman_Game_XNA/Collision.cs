@@ -99,7 +99,14 @@ namespace Pacman_Game_XNA
             {
                 if(g.GetAcutalCaseX(map.Tile_size) == pacman.GetAcutalCaseX(map.Tile_size) && g.GetAcutalCaseY(map.Tile_size) == pacman.GetAcutalCaseY(map.Tile_size))
                 {
-                    return true;
+                    if(g.Enable)
+                    {
+                        //Fin du game
+                    }
+                    else
+                    {
+                        g.GoToBase();
+                    }               
                 }
             }
             return false;
@@ -117,6 +124,10 @@ namespace Pacman_Game_XNA
                     map.Grid[pacman.GetAcutalCaseY(map.Tile_size)][pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
                     break;
                 case CELL_CONTENT.PACGUM:
+                    foreach(Ghost g in Game.GHOSTS)
+                    {
+                        g.Enable = false;
+                    }
                     map.Grid[pacman.GetAcutalCaseY(map.Tile_size)][pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
                     break;
             }

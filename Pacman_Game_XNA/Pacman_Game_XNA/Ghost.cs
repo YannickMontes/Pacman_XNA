@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -10,22 +11,114 @@ namespace Pacman_Game_XNA
     {
         public static int RANGE_ACTION = 10;
         private bool enable;
+        private Stopwatch chrono;
+
+        public bool Enable
+        {
+            get { return enable; }
+            set {
+                if (value==false)
+                {
+                    chrono.Start();
+                }
+                else
+                {
+                    chrono.Stop();
+                }
+                enable = value;
+            }
+        }
 
         public Ghost(string name, Texture2D texture, int x, int y) : base(name, texture)
         {
             this.enable = true;
             this.position.X = x;
             this.position.Y = y;
+            this.chrono = new Stopwatch();
         }
 
         public void Update(Collision collision)
         {
             this.RandomMoove(collision);
+            this.CheckActualTexture();
         }
 
         public void CheckActualTexture()
         {
-
+            if(this.enable)
+            {
+                this.actualTexture = textures.ElementAt(0);
+            }
+            else
+            {
+                if(chrono.IsRunning)
+                { 
+                    if(chrono.ElapsedMilliseconds < 5000)
+                    {
+                        this.actualTexture = textures.ElementAt(1);
+                    }
+                    if(chrono.ElapsedMilliseconds > 5000 && chrono.ElapsedMilliseconds < 5500)
+                    {
+                        this.actualTexture = textures.ElementAt(0);
+                    }
+                    if (chrono.ElapsedMilliseconds > 5500 && chrono.ElapsedMilliseconds < 6000)
+                    {
+                        this.actualTexture = textures.ElementAt(1);
+                    }
+                    if (chrono.ElapsedMilliseconds > 6000 && chrono.ElapsedMilliseconds < 6500)
+                    {
+                        this.actualTexture = textures.ElementAt(0);
+                    }
+                    if (chrono.ElapsedMilliseconds > 6500 && chrono.ElapsedMilliseconds < 7000)
+                    {
+                        this.actualTexture = textures.ElementAt(1);
+                    }
+                    if (chrono.ElapsedMilliseconds > 7000 && chrono.ElapsedMilliseconds < 7100)
+                    {
+                        this.actualTexture = textures.ElementAt(0);
+                    }
+                    if (chrono.ElapsedMilliseconds > 7100 && chrono.ElapsedMilliseconds < 7200)
+                    {
+                        this.actualTexture = textures.ElementAt(1);
+                    }
+                    if (chrono.ElapsedMilliseconds > 7200 && chrono.ElapsedMilliseconds < 7300)
+                    {
+                        this.actualTexture = textures.ElementAt(0);
+                    }
+                    if (chrono.ElapsedMilliseconds > 7300 && chrono.ElapsedMilliseconds < 7400)
+                    {
+                        this.actualTexture = textures.ElementAt(1);
+                    }
+                    if (chrono.ElapsedMilliseconds > 7400 && chrono.ElapsedMilliseconds < 7500)
+                    {
+                        this.actualTexture = textures.ElementAt(0);
+                    }
+                    if (chrono.ElapsedMilliseconds > 7500 && chrono.ElapsedMilliseconds < 7600)
+                    {
+                        this.actualTexture = textures.ElementAt(1);
+                    }
+                    if (chrono.ElapsedMilliseconds > 7600 && chrono.ElapsedMilliseconds < 7700)
+                    {
+                        this.actualTexture = textures.ElementAt(0);
+                    }
+                    if (chrono.ElapsedMilliseconds > 7700 && chrono.ElapsedMilliseconds < 7800)
+                    {
+                        this.actualTexture = textures.ElementAt(1);
+                    }
+                    if (chrono.ElapsedMilliseconds > 7800 && chrono.ElapsedMilliseconds < 7900)
+                    {
+                        this.actualTexture = textures.ElementAt(0);
+                    }
+                    if (chrono.ElapsedMilliseconds > 7900 && chrono.ElapsedMilliseconds < 8000)
+                    {
+                        this.actualTexture = textures.ElementAt(1);
+                    }
+                    if(chrono.ElapsedMilliseconds > 8000)
+                    {
+                        this.Enable = true;
+                    }
+                }
+            }
         }
 
         private void Dijikstra()
@@ -92,6 +185,12 @@ namespace Pacman_Game_XNA
                 return (dir == DIRECTION.UP ? DIRECTION.DOWN : DIRECTION.UP);
             }
             return DIRECTION.NONE;
+        }
+
+        public void GoToBase()
+        {
+            this.position.X = 13 * 20;
+            this.position.Y = 13 * 20;
         }
     }
 }

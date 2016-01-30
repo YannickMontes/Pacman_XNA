@@ -77,7 +77,7 @@ namespace Pacman_Game_XNA
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
                 {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
@@ -134,10 +134,17 @@ namespace Pacman_Game_XNA
             pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_UP_F"));
             pacman.setPosition(15*20, 17*20);
 
+            Texture2D g_eat = Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_eatable");
+
             GHOSTS.Add(new Ghost("Ghost 1", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_sky"), 15 * 20, 17 * 20));
             //GHOSTS.Add(new Ghost("Ghost 2", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_red"), 14 * 20, 13 * 20));
             //GHOSTS.Add(new Ghost("Ghost 3", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_pink"), 13 * 20, 13 * 20));
             //GHOSTS.Add(new Ghost("Ghost 4", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_orange"), 13 * 20, 14 * 20));
+
+            foreach(Ghost g in GHOSTS)
+            {
+                g.AddTexture(g_eat);
+            }
         }
 
         /// <summary>
