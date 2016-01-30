@@ -42,11 +42,15 @@ namespace Pacman_Game_XNA
         /// <summary>
         /// Used to moove the object. It makes it moove in the actual direction, with the actual speed.
         /// </summary>
-        public void MooveObject()
+        public void MooveObject(Collision c)
         {
+            if (!c.SideCaseIsNotWall(this.direction))
+            {
+                this.direction = DIRECTION.NONE;
+            }
             switch(this.direction)
             {
-                case DIRECTION.DOWN:
+                case DIRECTION.DOWN:     
                     this.position.Y += this.speed;
                     break;
                 case DIRECTION.UP:
@@ -125,6 +129,50 @@ namespace Pacman_Game_XNA
             return (int)this.position.Y;
         }
 
-        
+        public int GetCaseXInf(int tile_size)
+        {
+            if(this.position.X % tile_size == 0)
+            {
+                return (int)this.position.X / tile_size;
+            }
+            return -1;
+        }
+
+        public int GetCaseXSup(int tile_size)
+        {
+            if ((this.position.X + tile_size) % tile_size == 0)
+            {
+                return (int)(this.position.X + tile_size) / tile_size;
+            }
+            return -1;
+        }
+
+        public int GetCaseYInf(int tile_size)
+        {
+            if (this.position.Y % tile_size == 0)
+            {
+                return (int)this.position.Y / tile_size;
+            }
+            return -1;
+        }
+
+        public int GetCaseYSup(int tile_size)
+        {
+            if ((this.position.Y + tile_size) % tile_size == 0)
+            {
+                return (int)(this.position.Y + tile_size) / tile_size;
+            }
+            return -1;
+        }
+
+        public int GetAcutalCaseX(int tile_size)
+        {
+            return (int)(this.position.X+(tile_size/2))/tile_size;
+        }
+
+        public int GetAcutalCaseY(int tile_size)
+        {
+            return (int)(this.position.Y+(tile_size/2))/tile_size;
+        }
     }
 }

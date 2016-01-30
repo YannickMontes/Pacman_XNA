@@ -9,17 +9,18 @@ namespace Pacman_Game_XNA
     public class Pacman : AnimateObject
     {
         private MovementController movementController;
+        private Collision collision;
 
         public Pacman(string name, Texture2D texture, Map map) : base(name, texture)
         {
-            this.movementController = new MovementController(this, map);
+            this.collision = new Collision(this, map);
+            this.movementController = new MovementController(this, map, this.collision);
         }
 
         public void Update()
         {
-            this.Direction = this.movementController.GetMovement();
-            this.CheckActualTexture();
             this.movementController.Update();
+            this.MooveObject(this.collision);
         }
     }
 }

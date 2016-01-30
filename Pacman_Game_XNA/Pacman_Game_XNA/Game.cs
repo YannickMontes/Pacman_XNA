@@ -117,7 +117,7 @@ namespace Pacman_Game_XNA
             bigbean = Content.Load<Texture2D>(@"Sprites\\Background\\big_bean");
             pacgum = Content.Load<Texture2D>(@"Sprites\\Background\\pacgum");
             pacman = new Pacman("Pacman", Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_RIGHT"), this.map);
-            pacman.setPosition(15*20, 14*20);
+            pacman.setPosition(15*20, 17*20);
         }
 
         /// <summary>
