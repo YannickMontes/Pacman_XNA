@@ -151,9 +151,35 @@ namespace Pacman_Game_XNA
             }
         }
 
-        private void Dijikstra()
+        private void Dijikstra(Collision collision)
         {
-
+            Summit init = new Summit(this.GetAcutalCaseX(collision.Map.Tile_size), this.GetAcutalCaseY(collision.Map.Tile_size));
+            bool condition = true;
+            int x = (int)this.position.X;
+            int y = (int)this.position.Y;
+            while(condition)
+            {
+                List<DIRECTION> directions = collision.GetPossibleDirection(this);
+                int weight = 1;
+                foreach(DIRECTION d in directions)
+                {
+                    switch(d)
+                    {
+                        case DIRECTION.UP:
+                            while (collision.Map.Grid[this.GetAcutalCaseY(collision.Map.Tile_size)-weight][this.GetAcutalCaseX(collision.Map.Tile_size)].Content != CELL_CONTENT.WALL)
+                            {
+                                weight--;
+                            }
+                            break;
+                        case DIRECTION.DOWN:
+                            break;
+                        case DIRECTION.RIGHT:
+                            break;
+                        case DIRECTION.LEFT:
+                            break;
+                    }
+                }
+            }
         }
 
         private void RandomMoove(Collision collision)

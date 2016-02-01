@@ -142,5 +142,15 @@ namespace Pacman_Game_XNA
                     break;
             }
         }
+
+        public bool CaseIsIntersection(int x, int y)
+        {
+            if (map.Grid[y + 1][x].Content != CELL_CONTENT.WALL && map.Grid[y - 1][x].Content != CELL_CONTENT.WALL
+                && map.Grid[y][x -1].Content != CELL_CONTENT.WALL && map.Grid[y][x + 1].Content != CELL_CONTENT.WALL)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }
