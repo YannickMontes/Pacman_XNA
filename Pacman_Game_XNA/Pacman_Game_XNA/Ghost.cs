@@ -37,7 +37,7 @@ namespace Pacman_Game_XNA
             this.chrono = new Stopwatch();
         }
 
-        public void Update(Collision collision)
+        public void Update(Collision collision, int xPacman, int yPacman)
         {
             if((this.GetAcutalCaseX(collision.Map.Tile_size) > 10 && this.GetAcutalCaseX(collision.Map.Tile_size) < 17) 
                 && (this.GetAcutalCaseY(collision.Map.Tile_size) > 11 && this.GetAcutalCaseY(collision.Map.Tile_size) < 16))
@@ -46,6 +46,7 @@ namespace Pacman_Game_XNA
             }
             else
             {
+                //this.Dijikstra(collision, xPacman, yPacman);
                 this.RandomMoove(collision);
             }
             this.MooveObject(collision);
@@ -151,9 +152,118 @@ namespace Pacman_Game_XNA
             }
         }
 
-        private void Dijikstra()
+        private void Dijikstra(Collision collision, int xAim, int yAim)
         {
+            Summit[,] graph = new Summit[collision.Map.Height, collision.Map.Width];
+            for(int i=0; i< collision.Map.Height; i++)
+            {
+                for (int j = 0; j < collision.Map.Width; j++)
+                {
+                    if(collision.Map.Grid[i][j].Content != CELL_CONTENT.WALL)
+                    {
+                        graph[i, j] = new Summit(j, i);
+                    }
+                }
+            }
+            int x = xAim;
+            int y = yAim;
 
+            graph[yAim, xAim].Weight = 0;
+
+            while(x != xAim && y != yAim)
+            {
+                Summit actual = graph[y, x];
+                actual.Marqued = true;
+
+                if(graph[y - 1,x] != null)
+                {
+                    if(graph[y - 1, x].Weight > actual.Weight + 1)
+                    {
+                        graph[y - 1, x].Weight = actual.Weight + 1;
+                        graph[y - 1, x].Previous = actual;
+                    }
+                }
+
+                if (graph[y + 1, x] != null)
+                {
+                    if (graph[y + 1, x].Weight > actual.Weight + 1)
+                    {
+                        graph[y + 1, x].Weight = actual.Weight + 1;
+                        graph[y + 1, x].Previous = actual;
+                    }
+                }
+
+                if (graph[y , x+1] != null)
+                {
+                    if (graph[y, x+1].Weight > actual.Weight + 1)
+                    {
+                        graph[y , x+1].Weight = actual.Weight + 1;
+                        graph[y , x+1].Previous = actual;
+                    }
+                }
+
+                if (graph[y, x - 1] != null)
+                {
+                    if (graph[y, x - 1].Weight > actual.Weight + 1)
+                    {
+                        graph[y, x - 1].Weight = actual.Weight + 1;
+                        graph[y, x - 1].Previous = actual;
+                    }
+                }
+
+                int min = Int16.MinValue;
+
+                for (int i = 0; i < collision.Map.Height; i++)
+                {
+                    for (int j = 0; j < collision.Map.Width; j++)
+                    {
+                        if (graph[i, j] != null)
+                        {
+                            if(!graph[i,j].Marqued && graph[i,j].Weight<min)
+                            {
+                                min = graph[i, j].Weight;
+                                x = j;
+                                y = i;
+                            }
+                        }
+                    }
+                }
+            }
+
+            int xNext, yNext;
+            if(graph[y,x].Previous == null)
+            {
+                xNext = x;
+                yNext = y;
+            }
+            else
+            {
+                xNext = graph[y, x].Previous.CaseX;
+                yNext = graph[y, x].Previous.CaseY;
+            }
+
+            if(xNext != xAim)
+            {
+                if(xNext > xAim)
+                {
+                    this.direction = DIRECTION.LEFT;
+                }
+                else
+                {
+                    this.direction = DIRECTION.RIGHT;
+                }
+            }
+            else
+            {
+                if(yNext > yAim)
+                {
+                    this.direction = DIRECTION.UP;
+                }
+                else
+                {
+                    this.direction = DIRECTION.DOWN;
+                }
+            }
         }
 
         private void RandomMoove(Collision collision)
