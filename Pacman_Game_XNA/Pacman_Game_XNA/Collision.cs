@@ -89,6 +89,10 @@ namespace Pacman_Game_XNA
 
         public void Update(Pacman pacman)
         {
+            if(!Game.IN_GAME)
+            {
+                pacman.Replace();
+            }
             this.UpdatePacman(pacman);
             this.CheckCollisionPacmanGhosts(pacman);
         }

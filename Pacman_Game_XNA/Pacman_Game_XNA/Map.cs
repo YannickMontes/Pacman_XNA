@@ -72,6 +72,8 @@ namespace Pacman_Game_XNA
                 Pacman.LEVEL++;
                 Pacman.NB_LIVES++;
                 this.FillMap();
+                Game.IN_GAME = false;
+                Game.ReplaceElements();
             }
         }
 

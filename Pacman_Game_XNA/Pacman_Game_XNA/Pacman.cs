@@ -49,7 +49,7 @@ namespace Pacman_Game_XNA
 
         public void Replace()
         {
-            this.SetPosition(15 * 20, 17 * 20);
+            SetPosition(15 * 20, 17 * 20);
         }
 
         public int Score

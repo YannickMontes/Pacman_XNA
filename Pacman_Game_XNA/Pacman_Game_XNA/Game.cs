@@ -180,6 +180,7 @@ namespace Pacman_Game_XNA
                         g.Update(this.collision);
                     }
                     this.collision.Update(this.pacman);
+                    this.map.Update();
                 }
             }
             else
