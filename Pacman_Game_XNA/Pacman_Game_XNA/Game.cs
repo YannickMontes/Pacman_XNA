@@ -177,7 +177,7 @@ namespace Pacman_Game_XNA
                     this.pacman.Update(this.collision);
                     foreach (Ghost g in GHOSTS)
                     {
-                        g.Update(this.collision);
+                        g.Update(this.collision, pacman.GetAcutalCaseX(map.Tile_size), pacman.GetAcutalCaseY(map.Tile_size));
                     }
                     this.collision.Update(this.pacman);
                     this.map.Update();
@@ -259,12 +259,17 @@ namespace Pacman_Game_XNA
 
         private void DisplayScore()
         {
-            if(!Game.IN_GAME)
+            if(!Game.IN_GAME && Pacman.NB_LIVES>0)
             {
                 spriteBatch.DrawString(font, "READY?", new Vector2(20 * 12, 20 * 16), Color.Yellow);
             }
+            else if(!Game.IN_GAME && Pacman.NB_LIVES<=0)
+            {
+                spriteBatch.DrawString(font, "GAME OVER", new Vector2(20 * 11, 20 * 16), Color.Yellow);
+            }
             spriteBatch.DrawString(font, "Score: " + pacman.Score, new Vector2(20 * 28 + 5, 20 * 15), Color.White);
             spriteBatch.DrawString(font, "Lives: " + Pacman.NB_LIVES, new Vector2(20 * 28 + 5, 20 * 16), Color.White);
+            spriteBatch.DrawString(font, "Level: " + Pacman.LEVEL, new Vector2(20 * 28 + 5, 20 * 17), Color.White);
         }
 
         public static void ReplaceElements()
