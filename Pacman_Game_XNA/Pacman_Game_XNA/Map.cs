@@ -65,7 +65,7 @@ namespace Pacman_Game_XNA
             }
         }
 
-        public void Update()
+        public void Update(Pacman pacman)
         {
             if(this.GetNbBonus()==0)
             {
@@ -74,6 +74,7 @@ namespace Pacman_Game_XNA
                 this.FillMap();
                 Game.IN_GAME = false;
                 Game.ReplaceElements();
+                pacman.Replace();
             }
         }
 
@@ -102,24 +103,42 @@ namespace Pacman_Game_XNA
             {
                 for (int j = 0; j < this.width; j++)
                 {
-                    if ((i == 1 && j == 1) || (i == this.height-2 && j == 1) || (i == 1 && j == this.width-2) || (i == this.height-2 && j == this.width-2))
+                    if(this.grid[i][j].Content != CELL_CONTENT.WALL && !(i > 11 && i < 16 && j > 10 && j < 17))
                     {
-                        this.grid[i][j].Content = CELL_CONTENT.PACGUM;
-                    }
-                    else
-                    {
-                        int nb = rd.Next(100);
-                        if(nb<80)
+                        if ((i == 1 && j == 1) || (i == this.height - 2 && j == 1) || (i == 1 && j == this.width - 2) || (i == this.height - 2 && j == this.width - 2))
                         {
-                            this.grid[i][j].Content = CELL_CONTENT.BEAN;
+                            this.grid[i][j].Content = CELL_CONTENT.PACGUM;
                         }
                         else
                         {
-                            this.grid[i][j].Content = CELL_CONTENT.BIGBEAN;
-                        }
+                            int nb = rd.Next(100);
+                            if (nb < 95)
+                            {
+                                this.grid[i][j].Content = CELL_CONTENT.BEAN;
+                            }
+                            else
+                            {
+                                this.grid[i][j].Content = CELL_CONTENT.BIGBEAN;
+                            }
+                        }          
                     }
                 }
             }   
+        }
+
+        private void unfillmap()
+        {
+            for (int i = 0; i < this.height; i++)
+            {
+                for (int j = 0; j < this.width; j++)
+                {
+                    if(this.grid[i][j].Content != CELL_CONTENT.WALL)
+                    {
+                        this.grid[i][j].Content = CELL_CONTENT.EMPTY;
+                    }
+                }
+            }
+            this.grid[17][18].Content = CELL_CONTENT.BEAN;
         }
 
         /** PROPERTIES **/
