@@ -43,11 +43,13 @@ namespace Pacman_Game_XNA
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         public static List<Ghost> GHOSTS;
+        public static bool IN_GAME = false;
         private Texture2D wall;
         private Texture2D bean;
         private Texture2D bigbean;
         private Texture2D pacgum;
         private Map map;
+        private SpriteFont font;
         private Pacman pacman;
         private Collision collision;
         private MovementController movementController;
@@ -55,29 +57,29 @@ namespace Pacman_Game_XNA
         public Game()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferWidth = 1024;
-            graphics.PreferredBackBufferHeight = 660;
+            graphics.PreferredBackBufferWidth = 34*20;
+            graphics.PreferredBackBufferHeight = 31*20;
             graphics.ApplyChanges();
             Content.RootDirectory = "Content";
             this.map = new Map(28, 31, new byte[,]{
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+                {0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0},
                 {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
                 {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
                 {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+                {0, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1, 0},
                 {0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0},
                 {0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0},
                 {0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0},
                 {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 2, 2, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-                {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 2, 2, 2, 2, 2, 2, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 4, 4, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 4, 4, 4, 4, 4, 4, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                {0, 2, 1, 1, 1, 1, 1, 1, 1, 1, 0, 4, 4, 4, 4, 4, 4, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 0},
+                {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 4, 4, 4, 4, 4, 4, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0, 0, 1, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0},
                 {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
@@ -85,11 +87,11 @@ namespace Pacman_Game_XNA
                 {0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0},
                 {0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0},
                 {0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0},
-                {0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0},
+                {0, 0, 0, 2, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 2, 0, 0, 0},
                 {0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0},
                 {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
                 {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0},
-                {0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+                {0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 0},
                 {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
             });
             this.collision = new Collision(this.pacman, map);
@@ -118,6 +120,7 @@ namespace Pacman_Game_XNA
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            font = Content.Load<SpriteFont>("Arial");
 
             wall = Content.Load<Texture2D>(@"Sprites\\Background\\wall");
             bean = Content.Load<Texture2D>(@"Sprites\\Background\\bean");
@@ -132,14 +135,14 @@ namespace Pacman_Game_XNA
             pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_DOWN_F"));
             pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_LEFT_F"));
             pacman.AddTexture(Content.Load<Texture2D>(@"Sprites\\Pacman\\pacman_UP_F"));
-            pacman.setPosition(15*20, 17*20);
+            pacman.SetPosition(15*20, 17*20);
 
             Texture2D g_eat = Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_eatable");
 
-            GHOSTS.Add(new Ghost("Ghost 1", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_sky"), 15 * 20, 17 * 20));
-            //GHOSTS.Add(new Ghost("Ghost 2", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_red"), 14 * 20, 13 * 20));
-            //GHOSTS.Add(new Ghost("Ghost 3", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_pink"), 13 * 20, 13 * 20));
-            //GHOSTS.Add(new Ghost("Ghost 4", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_orange"), 13 * 20, 14 * 20));
+            GHOSTS.Add(new Ghost("Ghost 1", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_sky"), 14 * 20, 14 * 20));
+            GHOSTS.Add(new Ghost("Ghost 2", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_red"), 14 * 20, 13 * 20));
+            GHOSTS.Add(new Ghost("Ghost 3", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_pink"), 13 * 20, 13 * 20));
+            GHOSTS.Add(new Ghost("Ghost 4", Content.Load<Texture2D>(@"Sprites\\Ghosts\\ghost_orange"), 13 * 20, 14 * 20));
 
             foreach(Ghost g in GHOSTS)
             {
@@ -166,15 +169,23 @@ namespace Pacman_Game_XNA
             // Allows the game to exit
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
-
-            this.movementController.Update(this.pacman, this.map);
-            this.pacman.Update(this.collision);
-            foreach(Ghost g in GHOSTS)
+            if(Pacman.NB_LIVES!=0)
             {
-                g.Update(this.collision);
+                this.movementController.Update(this.pacman, this.map);
+                if (Game.IN_GAME)
+                {
+                    this.pacman.Update(this.collision);
+                    foreach (Ghost g in GHOSTS)
+                    {
+                        g.Update(this.collision);
+                    }
+                    this.collision.Update(this.pacman);
+                }
             }
-            this.collision.Update(this.pacman);
-
+            else
+            {
+                //GAME OVER
+            }
             Pacman.NB_FRAMES_OPEN_MOUTH_PACMAN++;
 
             base.Update(gameTime);
@@ -192,6 +203,7 @@ namespace Pacman_Game_XNA
             this.DisplayMap();
             this.DisplayPacman();
             this.DisplayGhosts();
+            this.DisplayScore();
             spriteBatch.End();
 
             base.Draw(gameTime);
@@ -244,9 +256,22 @@ namespace Pacman_Game_XNA
             }
         }
 
-        public static void Stop()
+        private void DisplayScore()
         {
-            throw new NotImplementedException();
+            if(!Game.IN_GAME)
+            {
+                spriteBatch.DrawString(font, "READY?", new Vector2(20 * 12, 20 * 16), Color.Yellow);
+            }
+            spriteBatch.DrawString(font, "Score: " + pacman.Score, new Vector2(20 * 28 + 5, 20 * 15), Color.White);
+            spriteBatch.DrawString(font, "Lives: " + Pacman.NB_LIVES, new Vector2(20 * 28 + 5, 20 * 16), Color.White);
+        }
+
+        public static void ReplaceElements()
+        {
+            GHOSTS.ElementAt(0).SetPosition(14 * 20, 14 * 20);
+            GHOSTS.ElementAt(1).SetPosition(14 * 20, 13 * 20);
+            GHOSTS.ElementAt(2).SetPosition(13 * 20, 14 * 20);
+            GHOSTS.ElementAt(3).SetPosition(13 * 20, 13 * 20);
         }
     }
 }

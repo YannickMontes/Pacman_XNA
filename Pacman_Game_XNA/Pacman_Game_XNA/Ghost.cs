@@ -39,8 +39,38 @@ namespace Pacman_Game_XNA
 
         public void Update(Collision collision)
         {
-            this.RandomMoove(collision);
+            if((this.GetAcutalCaseX(collision.Map.Tile_size) > 10 && this.GetAcutalCaseX(collision.Map.Tile_size) < 17) 
+                && (this.GetAcutalCaseY(collision.Map.Tile_size) > 11 && this.GetAcutalCaseY(collision.Map.Tile_size) < 16))
+            {
+                this.GetOutOriginCage(collision);
+            }
+            else
+            {
+                this.RandomMoove(collision);
+            }
+            this.MooveObject(collision);
             this.CheckActualTexture();
+        }
+
+        private void GetOutOriginCage(Collision collision)
+        {
+            if(this.GetAcutalCaseY(collision.Map.Tile_size)==11)
+            {
+                Random rd = new Random();
+                int nb = rd.Next(2);
+                if(nb==0)
+                {
+                    this.direction = DIRECTION.LEFT;
+                }
+                else
+                {
+                    this.direction = DIRECTION.RIGHT;
+                }
+            }
+            else
+            {
+                this.direction = DIRECTION.UP;
+            }
         }
 
         public void CheckActualTexture()
@@ -170,8 +200,6 @@ namespace Pacman_Game_XNA
                     }
                 }
             }
-            
-            this.MooveObject(collision);
         }
 
         private DIRECTION OppositeDirection(DIRECTION dir)

@@ -33,12 +33,16 @@ namespace Pacman_Game_XNA
                 if (keyboard.IsKeyDown(Keys.Up) || keyboard.IsKeyDown(Keys.Down))
                 {
                     pacman.Direction = (keyboard.IsKeyDown(Keys.Up) ? DIRECTION.UP : DIRECTION.DOWN);
+                    if (!Game.IN_GAME)
+                        Game.IN_GAME = true;
                 }
                 else if (keyboard.IsKeyDown(Keys.Right) || keyboard.IsKeyDown(Keys.Left))
                 {
                     if (pacman.GetCaseYSup(map.Tile_size) != -1 || pacman.GetCaseYInf(map.Tile_size) != -1)
                     {
                         pacman.Direction = (keyboard.IsKeyDown(Keys.Right) ? DIRECTION.RIGHT : DIRECTION.LEFT);
+                        if (!Game.IN_GAME)
+                            Game.IN_GAME = true;
                     }
                 }
             }
@@ -47,12 +51,16 @@ namespace Pacman_Game_XNA
                 if (keyboard.IsKeyDown(Keys.Right) || keyboard.IsKeyDown(Keys.Left))
                 {
                     pacman.Direction = (keyboard.IsKeyDown(Keys.Right) ? DIRECTION.RIGHT : DIRECTION.LEFT);
+                    if (!Game.IN_GAME)
+                        Game.IN_GAME = true;
                 }
                 else if (keyboard.IsKeyDown(Keys.Up) || keyboard.IsKeyDown(Keys.Down))
                 {
                     if (pacman.GetCaseXSup(map.Tile_size) != -1 || pacman.GetCaseXInf(map.Tile_size) != -1)
                     {
                         pacman.Direction = (keyboard.IsKeyDown(Keys.Up) ? DIRECTION.UP : DIRECTION.DOWN);
+                        if (!Game.IN_GAME)
+                            Game.IN_GAME = true;
                     }
                 }
             }

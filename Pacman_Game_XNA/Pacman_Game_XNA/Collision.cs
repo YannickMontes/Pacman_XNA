@@ -101,11 +101,15 @@ namespace Pacman_Game_XNA
                 {
                     if(g.Enable)
                     {
-                        //Fin du game
+                        Pacman.NB_LIVES--;
+                        Game.IN_GAME = false;
+                        Game.ReplaceElements();
+                        pacman.Replace();
                     }
                     else
                     {
                         g.GoToBase();
+                        pacman.Score += 200;
                     }               
                 }
             }
@@ -117,13 +121,15 @@ namespace Pacman_Game_XNA
             switch (this.map.Grid[pacman.GetAcutalCaseY(map.Tile_size)][pacman.GetAcutalCaseX(map.Tile_size)].Content)
             {
                 case CELL_CONTENT.BEAN:
-                    pacman.Score += 5;
+                    pacman.Score += 10;
                     map.Grid[pacman.GetAcutalCaseY(map.Tile_size)][pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
                     break;
                 case CELL_CONTENT.BIGBEAN:
+                    pacman.Score += 20;
                     map.Grid[pacman.GetAcutalCaseY(map.Tile_size)][pacman.GetAcutalCaseX(map.Tile_size)].Content = CELL_CONTENT.EMPTY;
                     break;
                 case CELL_CONTENT.PACGUM:
+                    pacman.Score += 50;
                     foreach(Ghost g in Game.GHOSTS)
                     {
                         g.Enable = false;

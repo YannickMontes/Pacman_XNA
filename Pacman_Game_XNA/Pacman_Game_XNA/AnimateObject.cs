@@ -66,7 +66,7 @@ namespace Pacman_Game_XNA
             }
         }
 
-        public void setPosition(int x, int y)
+        public void SetPosition(int x, int y)
         {
             this.position.X = x;
             this.position.Y = y;

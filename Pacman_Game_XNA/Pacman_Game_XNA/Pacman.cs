@@ -9,6 +9,8 @@ namespace Pacman_Game_XNA
     public class Pacman : AnimateObject
     {
         public static int NB_FRAMES_OPEN_MOUTH_PACMAN = 0;
+        public static int LEVEL = 1;
+        public static int NB_LIVES = 3;
         private int score = 0;
 
         public Pacman(string name, Texture2D texture) : base(name, texture)
@@ -43,6 +45,11 @@ namespace Pacman_Game_XNA
             {
                 this.actualTexture = this.textures.ElementAt(this.textures.IndexOf(this.actualTexture) - 4);
             }
+        }
+
+        public void Replace()
+        {
+            this.SetPosition(15 * 20, 17 * 20);
         }
 
         public int Score

@@ -65,6 +65,61 @@ namespace Pacman_Game_XNA
             }
         }
 
+        public void Update()
+        {
+            if(this.GetNbBonus()==0)
+            {
+                Pacman.LEVEL++;
+                Pacman.NB_LIVES++;
+                this.FillMap();
+            }
+        }
+
+        private int GetNbBonus()
+        {
+            int compteur = 0;
+            
+            for (int i = 0; i < this.height; i++)
+            {
+                for (int j = 0; j < this.width; j++)
+                {
+                    if(this.grid[i][j].Content != CELL_CONTENT.WALL && this.grid[i][j].Content != CELL_CONTENT.EMPTY)
+                    {
+                        compteur++;
+                    }
+                }
+            }
+
+            return compteur;
+        }
+
+        private void FillMap()
+        {
+            Random rd = new Random();
+            for (int i = 0; i < this.height; i++)
+            {
+                for (int j = 0; j < this.width; j++)
+                {
+                    if ((i == 1 && j == 1) || (i == this.height-2 && j == 1) || (i == 1 && j == this.width-2) || (i == this.height-2 && j == this.width-2))
+                    {
+                        this.grid[i][j].Content = CELL_CONTENT.PACGUM;
+                    }
+                    else
+                    {
+                        int nb = rd.Next(100);
+                        if(nb<80)
+                        {
+                            this.grid[i][j].Content = CELL_CONTENT.BEAN;
+                        }
+                        else
+                        {
+                            this.grid[i][j].Content = CELL_CONTENT.BIGBEAN;
+                        }
+                    }
+                }
+            }   
+        }
+
         /** PROPERTIES **/
         public Cell[][] Grid
         {
